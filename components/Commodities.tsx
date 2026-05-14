@@ -1,0 +1,184 @@
+"use client";
+
+import { motion } from "framer-motion";
+
+type Side = { title: string; body: string; tags: string[] };
+type CommoditiesT = {
+  eyebrow: string;
+  heading: string;
+  sub: string;
+  dry: Side;
+  produce: Side;
+};
+
+export function Commodities({ t }: { t: CommoditiesT }) {
+  return (
+    <section id="commodities" className="relative bg-paper py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
+        <div className="max-w-3xl">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
+            className="eyebrow text-cobalt/70"
+          >
+            <span className="mr-3 inline-block h-px w-8 align-middle bg-amber" />
+            {t.eyebrow}
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.05 }}
+            className="mt-5 font-display text-[34px] leading-[1.05] tracking-tight text-cobalt-ink md:text-[44px]"
+          >
+            {t.heading}
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="mt-6 max-w-2xl text-base leading-relaxed text-cobalt-ink/75 md:text-[17px]"
+          >
+            {t.sub}
+          </motion.p>
+        </div>
+
+        <div className="mt-14 grid gap-5 md:mt-20 md:grid-cols-2 md:gap-6">
+          <Panel
+            side={t.dry}
+            kind="dry"
+            index={0}
+          />
+          <Panel
+            side={t.produce}
+            kind="produce"
+            index={1}
+          />
+        </div>
+
+        {/* Elegant commodity belt — a slow, editorial drift of the things
+            we move, separated by a thin amber diamond. Smaller and lighter
+            than before so it reads as quiet supporting context, not noise. */}
+        <div className="relative mt-14 overflow-hidden border-y border-line-soft py-7">
+          <div className="tag-marquee flex w-max items-center gap-12 md:gap-16">
+            {/* Doubled so the loop point is invisible */}
+            {[
+              ...t.dry.tags,
+              ...t.produce.tags,
+              ...t.dry.tags,
+              ...t.produce.tags,
+            ].map((tag, i) => (
+              <div key={`${tag}-${i}`} className="flex items-center gap-12 md:gap-16">
+                <span className="font-serif text-[22px] font-light italic tracking-[0.01em] text-cobalt-ink/40 md:text-[28px]">
+                  {tag}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="inline-block h-1.5 w-1.5 rotate-45 bg-amber/60"
+                />
+              </div>
+            ))}
+          </div>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-paper via-paper/90 to-transparent"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-paper via-paper/90 to-transparent"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Panel({
+  side,
+  kind,
+  index,
+}: {
+  side: Side;
+  kind: "dry" | "produce";
+  index: number;
+}) {
+  const isDry = kind === "dry";
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 36 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{
+        duration: 0.75,
+        delay: index * 0.1,
+        ease: [0.22, 0.8, 0.32, 1],
+      }}
+      className={`group relative overflow-hidden rounded-2xl border p-8 md:p-10 ${
+        isDry
+          ? "border-line-soft bg-ivory"
+          : "border-amber/25 bg-gradient-to-br from-amber/[0.06] to-amber/[0.02]"
+      }`}
+    >
+      <div className="flex items-center justify-between">
+        <span
+          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.22em] ${
+            isDry
+              ? "bg-cobalt/10 text-cobalt"
+              : "bg-amber text-cobalt-ink"
+          }`}
+        >
+          <span className={`inline-block h-1.5 w-1.5 rounded-full ${isDry ? "bg-cobalt" : "bg-cobalt-ink"}`} />
+          {isDry ? "Dry" : "Cold"}
+        </span>
+        {isDry ? <BoxIcon className="h-9 w-9 text-cobalt/40" /> : <LeafIcon className="h-9 w-9 text-amber-deep" />}
+      </div>
+
+      <h3 className="mt-7 font-display text-[28px] leading-tight tracking-tight text-cobalt-ink md:text-[34px]">
+        {side.title}
+      </h3>
+      <p className="mt-3 max-w-md text-[15px] leading-relaxed text-cobalt-ink/70">
+        {side.body}
+      </p>
+
+      <div className="mt-7 flex flex-wrap gap-2">
+        {side.tags.map((tag) => (
+          <span
+            key={tag}
+            className={`rounded-full border px-3 py-1 text-[12px] ${
+              isDry
+                ? "border-cobalt/15 bg-paper text-cobalt/80"
+                : "border-amber/35 bg-ivory text-amber-deep"
+            }`}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function BoxIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="m4 10 12-6 12 6v14l-12 6L4 24z" strokeLinejoin="round" />
+      <path d="M4 10l12 6 12-6M16 16v14" />
+    </svg>
+  );
+}
+function LeafIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path
+        d="M6 26C6 14 14 6 26 6c0 12-8 20-20 20z"
+        strokeLinejoin="round"
+        fill="currentColor"
+        fillOpacity="0.12"
+      />
+      <path d="M6 26 22 10" strokeLinecap="round" />
+    </svg>
+  );
+}

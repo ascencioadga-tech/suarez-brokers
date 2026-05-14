@@ -1,0 +1,317 @@
+@import "tailwindcss";
+
+/*
+  Suarez Brokerage — Brand System v1.0
+  Palette: cobalt / ivory / amber, with steel + paper for support.
+  80/15/5 rule: paper is the page · cobalt is the voice · amber is the punctuation.
+*/
+
+@theme {
+  --color-cobalt: #1f3a8a;
+  --color-cobalt-deep: #142654;
+  --color-cobalt-ink: #0b1830;
+  --color-cobalt-soft: #3a5fc0;
+  --color-cobalt-mist: #c9d4ee;
+  --color-amber: #d4922e;
+  --color-amber-light: #e8b659;
+  --color-amber-deep: #a86a18;
+  --color-steel: #5b6577;
+  --color-steel-soft: #94a0b3;
+  --color-paper: #f7f5ef;
+  --color-paper-warm: #f1ecde;
+  --color-ivory: #fbfaf6;
+  --color-suarez-red: #fa0109;
+  --color-suarez-red-deep: #b8050d;
+  --color-line: rgba(20, 38, 84, 0.14);
+  --color-line-soft: rgba(20, 38, 84, 0.08);
+
+  --font-sans: var(--font-sans-body);
+  --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
+}
+
+html, body {
+  background: var(--color-paper);
+  color: var(--color-cobalt-ink);
+}
+
+html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 96px; }
+
+body {
+  font-family: var(--font-sans-body), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-amber);
+  color: var(--color-cobalt-ink);
+}
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+.font-serif {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+}
+.eyebrow {
+  font-family: var(--font-sans-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+.border-line { border-color: var(--color-line); }
+.border-line-soft { border-color: var(--color-line-soft); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Hero — animated border map
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* The southern U.S./northern MX border line draws itself in once on load,
+   then a subtle hover-shimmer plays underneath the pins. */
+@keyframes border-draw {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+.border-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: border-draw 2.8s cubic-bezier(0.22, 0.8, 0.32, 1) 0.6s forwards;
+}
+
+/* A slow, ambient pulse on each port-of-entry pin — the "we are live" cue. */
+@keyframes port-pulse {
+  0%   { transform: scale(0.6); opacity: 0.7; }
+  70%  { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.port-pulse {
+  transform-origin: center;
+  animation: port-pulse 2.6s cubic-bezier(0.22, 0.8, 0.32, 1) infinite;
+}
+
+/* Stronger pulse reserved for the Nogales HQ. */
+.port-pulse-hq {
+  animation-duration: 2.2s;
+}
+
+/* Lanes — animated dotted lines connecting MX origin points up to each port.
+   Each lane has its own animation-delay so they don't all pulse together. */
+@keyframes lane-flow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -24; }
+}
+.lane-flow {
+  stroke-dasharray: 2 6;
+  animation: lane-flow 3.6s linear infinite;
+}
+
+/* Hero Ken-Burns — barely perceptible drift over the entire map. */
+@keyframes hero-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1.0); }
+  50%  { transform: translate3d(-0.6%, -0.4%, 0) scale(1.02); }
+  100% { transform: translate3d(0, 0, 0) scale(1.0); }
+}
+.hero-drift {
+  animation: hero-drift 28s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Subtle grain texture overlay for the hero — adds film-stock depth. */
+@keyframes grain-jitter {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-1%, 1%); }
+  40%  { transform: translate(1%, -1%); }
+  60%  { transform: translate(-1%, -1%); }
+  80%  { transform: translate(1%, 1%); }
+  100% { transform: translate(0, 0); }
+}
+.grain {
+  background-image:
+    radial-gradient(rgba(20, 38, 84, 0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+  animation: grain-jitter 1.2s steps(6) infinite;
+  pointer-events: none;
+}
+
+/* Scroll cue line that fills downward and resets. */
+@keyframes scroll-cue {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 0.65; }
+  60%  { transform: scaleY(1); transform-origin: top; opacity: 0.65; }
+  61%  { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+.animate-scroll-cue { animation: scroll-cue 2.6s ease-in-out infinite; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Services — the cards reveal a soft amber glow under the icon on hover.
+   ────────────────────────────────────────────────────────────────────────── */
+@keyframes card-shine {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+.card-shine {
+  animation: card-shine 1.4s cubic-bezier(0.22, 0.8, 0.32, 1);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Stats — number-roll feel via a subtle vertical settle.
+   ────────────────────────────────────────────────────────────────────────── */
+@keyframes stat-settle {
+  0%   { transform: translateY(14px); opacity: 0; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Timeline — vertical line draws downward as the section scrolls into view.
+   (Handled with framer-motion scroll progress; CSS is just the base style.)
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Marquee — for the commodities tag belt.
+   ────────────────────────────────────────────────────────────────────────── */
+@keyframes tag-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.tag-marquee {
+  animation: tag-marquee 60s linear infinite;
+  will-change: transform;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Truck — a tiny SVG truck travels the border line in the hero.
+   ────────────────────────────────────────────────────────────────────────── */
+@keyframes truck-travel {
+  0%   { offset-distance: 0%; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+.truck-travel {
+  animation: truck-travel 18s linear infinite;
+  offset-rotate: auto;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Cross-border journey — a 12-second narrative on the hero map.
+
+   Phase 1 (t = 0 → 4s)   Inbound routes draw from Mexican origin cities
+                          upward to the border ports.
+   Phase 2 (t = 4 → 6s)   The ports flash a brighter pulse — "cleared at
+                          customs."
+   Phase 3 (t = 6 → 10s)  Outbound routes draw from the border ports out
+                          across the U.S. to destination cities.
+   Phase 4 (t = 10 → 12s) Hold full picture, then fade to start over.
+   ────────────────────────────────────────────────────────────────────────── */
+
+@keyframes route-inbound {
+  0%   { stroke-dashoffset: 1; opacity: 0; }
+  3%   { opacity: 1; }
+  30%  { stroke-dashoffset: 0; opacity: 1; }
+  85%  { stroke-dashoffset: 0; opacity: 0.9; }
+  92%  { opacity: 0; }
+  100% { stroke-dashoffset: 1; opacity: 0; }
+}
+.route-inbound {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: route-inbound 9s cubic-bezier(0.22, 0.8, 0.32, 1) infinite;
+  will-change: stroke-dashoffset, opacity;
+}
+
+@keyframes route-outbound {
+  0%,  45%  { stroke-dashoffset: 1; opacity: 0; }
+  48%       { opacity: 1; }
+  72%       { stroke-dashoffset: 0; opacity: 1; }
+  92%       { opacity: 0.9; }
+  96%       { opacity: 0; }
+  100%      { stroke-dashoffset: 1; opacity: 0; }
+}
+.route-outbound {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: route-outbound 9s cubic-bezier(0.22, 0.8, 0.32, 1) infinite;
+  will-change: stroke-dashoffset, opacity;
+}
+
+/* A traveling glow head — a small dot that follows the route's path while
+   it's drawing in. Uses offset-path; each route has its own
+   --route-path set inline. */
+@keyframes route-head-inbound {
+  0%,  3%   { offset-distance: 0%; opacity: 0; }
+  6%        { opacity: 1; }
+  30%       { offset-distance: 100%; opacity: 1; }
+  34%       { offset-distance: 100%; opacity: 0; }
+  100%      { offset-distance: 100%; opacity: 0; }
+}
+.route-head-inbound {
+  animation: route-head-inbound 9s cubic-bezier(0.22, 0.8, 0.32, 1) infinite;
+  will-change: offset-distance, opacity;
+}
+
+@keyframes route-head-outbound {
+  0%,  48%  { offset-distance: 0%; opacity: 0; }
+  51%       { opacity: 1; }
+  72%       { offset-distance: 100%; opacity: 1; }
+  76%       { offset-distance: 100%; opacity: 0; }
+  100%      { offset-distance: 100%; opacity: 0; }
+}
+.route-head-outbound {
+  animation: route-head-outbound 9s cubic-bezier(0.22, 0.8, 0.32, 1) infinite;
+  will-change: offset-distance, opacity;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Ocean drift — animated sine-wave layers flowing through the sea around
+   the country shapes. Two layers move in opposite directions at different
+   speeds to give the water a sense of current rather than a flat slide.
+   ────────────────────────────────────────────────────────────────────────── */
+@keyframes ocean-drift-slow {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-140px, 0, 0); } /* one slow wavelength */
+}
+.ocean-drift-slow {
+  animation: ocean-drift-slow 22s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ocean-drift-fast {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(90px, 0, 0); }   /* one fast wavelength, opposite dir */
+}
+.ocean-drift-fast {
+  animation: ocean-drift-fast 14s linear infinite;
+  will-change: transform;
+}
+
+/* Port "cleared" flash — a single bright ring that pulses out when the
+   inbound shipments arrive at customs (t≈4-6s). */
+@keyframes port-clear-flash {
+  0%,  30%  { transform: scale(0.6); opacity: 0; }
+  35%       { transform: scale(0.6); opacity: 0.9; }
+  50%       { transform: scale(3.0); opacity: 0; }
+  100%      { transform: scale(3.0); opacity: 0; }
+}
+.port-clear-flash {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: port-clear-flash 9s cubic-bezier(0.22, 0.8, 0.32, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .border-draw, .port-pulse, .lane-flow, .hero-drift, .grain,
+  .animate-scroll-cue, .card-shine, .tag-marquee, .truck-travel,
+  .route-inbound, .route-outbound,
+  .route-head-inbound, .route-head-outbound,
+  .port-clear-flash,
+  .ocean-drift-slow, .ocean-drift-fast {
+    animation: none !important;
+  }
+  .border-draw { stroke-dashoffset: 0 !important; }
+  .route-inbound, .route-outbound { stroke-dashoffset: 0 !important; opacity: 1 !important; }
+}
