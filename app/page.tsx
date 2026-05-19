@@ -1,28 +1,32 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
+import { useEffect } from "react";
 
-export const metadata: Metadata = {
-  title: "Suarez Brokerage — Your bridge between Mexico and the world",
-  // Static-export friendly meta-refresh to default locale. Netlify also
-  // forwards "/" → "/en/" via netlify.toml as a belt-and-braces.
-  other: {
-    "http-equiv": "refresh",
-  },
-};
-
+// Lightweight client-side redirect to the default locale. Netlify's
+// [[redirects]] in netlify.toml handles "/" → "/en/" at the edge in
+// production; this is the SPA fallback when the static HTML is served
+// directly (e.g. local preview).
 export default function RootRedirect() {
+  useEffect(() => {
+    window.location.replace("/en/");
+  }, []);
+
   return (
-    <html lang="en">
-      <head>
-        <meta httpEquiv="refresh" content="0; url=/en/" />
-        <link rel="canonical" href="/en/" />
-      </head>
-      <body style={{ fontFamily: "system-ui", padding: "2rem" }}>
-        <p>
-          Redirecting to <Link href="/en/">English</Link> /{" "}
-          <Link href="/es/">Español</Link>…
-        </p>
-      </body>
-    </html>
+    <div
+      style={{
+        minHeight: "60vh",
+        display: "grid",
+        placeItems: "center",
+        padding: "2rem",
+        fontFamily: "system-ui, sans-serif",
+        color: "#0b1830",
+      }}
+    >
+      <p>
+        Redirecting to <Link href="/en/">English</Link> /{" "}
+        <Link href="/es/">Español</Link>…
+      </p>
+    </div>
   );
 }

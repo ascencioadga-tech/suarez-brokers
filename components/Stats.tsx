@@ -14,26 +14,25 @@ export function Stats({ t }: { t: StatsT }) {
     <section
       className="relative overflow-hidden py-24 text-ivory md:py-28"
       style={{
-        // Deeper, more refined red — same family as the brand mark but
-        // dialed down so it reads as a premium corporate field rather
-        // than fire-engine red.
+        // Faded brick / antique-red field — desaturated so the section
+        // reads as a quiet accent moment, not a loud statement.
         background:
-          "linear-gradient(180deg, #a8120e 0%, #82070f 55%, #5e0610 100%)",
+          "linear-gradient(180deg, #a85a52 0%, #82403b 55%, #5d2c29 100%)",
       }}
     >
-      {/* Quiet directional sheen — just a hint of depth, not a gloss */}
+      {/* Very quiet directional sheen */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(80% 60% at 50% 0%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 65%)",
+            "radial-gradient(80% 60% at 50% 0%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 65%)",
         }}
       />
       {/* Subtle dot pattern */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage:
             "radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",

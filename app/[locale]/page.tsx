@@ -29,9 +29,9 @@ export default async function LocalePage({
         <Services t={t.services} />
         <SectionDivider />
         <Locations locale={locale} t={t.locations} />
-        <Heritage t={t.heritage} />
         <Commodities t={t.commodities} />
         <Stats t={t.stats} />
+        <Heritage t={t.heritage} />
         <Contact t={t.contact} />
       </main>
       <Footer t={t.footer} />

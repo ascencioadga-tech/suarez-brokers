@@ -9,7 +9,32 @@ type CommoditiesT = {
   sub: string;
   dry: Side;
   produce: Side;
+  clientsLead: string;
 };
+
+// Client roster for the trusted-by belt. PLACEHOLDER companies — drop in
+// the real client names + real logo files later. Each entry can take a
+// `logo` path (e.g. "/logos/clientname.svg") in which case the monogram
+// fallback is skipped and the <img> is rendered instead.
+type Client = {
+  name: string;
+  initials: string;
+  accent: string;
+  shape?: "square" | "circle" | "diamond";
+  /** Optional path to a real logo file under /public — wires directly. */
+  logo?: string;
+};
+
+const clients: Client[] = [
+  { name: "Sierra Foods",          initials: "SF", accent: "#fa0109", shape: "square" },
+  { name: "Pacific Border Co.",    initials: "PB", accent: "#142654", shape: "circle" },
+  { name: "Cordillera Trading",    initials: "CT", accent: "#a86a18", shape: "diamond" },
+  { name: "Frontera Fresh",        initials: "FF", accent: "#1f3a8a", shape: "circle" },
+  { name: "Atlas Wholesale",       initials: "AW", accent: "#0b1830", shape: "square" },
+  { name: "Sun Valley Brands",     initials: "SV", accent: "#d4922e", shape: "circle" },
+  { name: "Bridge Logistics",      initials: "BL", accent: "#1f3a8a", shape: "square" },
+  { name: "Calavera Distribution", initials: "CD", accent: "#7a4a10", shape: "diamond" },
+];
 
 export function Commodities({ t }: { t: CommoditiesT }) {
   return (
@@ -59,37 +84,33 @@ export function Commodities({ t }: { t: CommoditiesT }) {
           />
         </div>
 
-        {/* Elegant commodity belt — a slow, editorial drift of the things
-            we move, separated by a thin amber diamond. Smaller and lighter
-            than before so it reads as quiet supporting context, not noise. */}
-        <div className="relative mt-14 overflow-hidden border-y border-line-soft py-7">
-          <div className="tag-marquee flex w-max items-center gap-12 md:gap-16">
-            {/* Doubled so the loop point is invisible */}
-            {[
-              ...t.dry.tags,
-              ...t.produce.tags,
-              ...t.dry.tags,
-              ...t.produce.tags,
-            ].map((tag, i) => (
-              <div key={`${tag}-${i}`} className="flex items-center gap-12 md:gap-16">
-                <span className="font-serif text-[22px] font-light italic tracking-[0.01em] text-cobalt-ink/40 md:text-[28px]">
-                  {tag}
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="inline-block h-1.5 w-1.5 rotate-45 bg-amber/60"
-                />
-              </div>
-            ))}
+        {/* Client roster belt — replaces the prior commodity-tag marquee.
+            Soft "trusted by" lead, then a continuous drift of partner
+            wordmarks paired with a small monogram mark. Doubled in the
+            DOM so the CSS marquee loop is seamless. */}
+        <div className="mt-16 md:mt-20">
+          <div className="text-center">
+            <span className="eyebrow text-cobalt/60">
+              <span className="mr-3 inline-block h-px w-8 align-middle bg-amber/70" />
+              {t.clientsLead}
+              <span className="ml-3 inline-block h-px w-8 align-middle bg-amber/70" />
+            </span>
           </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-paper via-paper/90 to-transparent"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-paper via-paper/90 to-transparent"
-          />
+          <div className="relative mt-7 overflow-hidden border-y border-line-soft py-7">
+            <div className="tag-marquee flex w-max items-center gap-14 md:gap-20">
+              {[...clients, ...clients].map((c, i) => (
+                <ClientMark key={`${c.name}-${i}`} client={c} />
+              ))}
+            </div>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-paper via-paper/90 to-transparent"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-paper via-paper/90 to-transparent"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -158,6 +179,81 @@ function Panel({
         ))}
       </div>
     </motion.div>
+  );
+}
+
+function ClientMark({ client: c }: { client: Client }) {
+  return (
+    <div className="flex shrink-0 items-center gap-3.5">
+      {c.logo ? (
+        // Real client logo — drop a transparent SVG/PNG into /public/clients/
+        // and reference it via the `logo` field above.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={c.logo}
+          alt={c.name}
+          className="h-9 w-auto opacity-70 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0"
+        />
+      ) : (
+        <MonogramShape
+          initials={c.initials}
+          accent={c.accent}
+          shape={c.shape ?? "square"}
+        />
+      )}
+      <span className="font-display text-[18px] font-medium tracking-tight text-cobalt-ink/65 md:text-[20px]">
+        {c.name}
+      </span>
+    </div>
+  );
+}
+
+function MonogramShape({
+  initials,
+  accent,
+  shape,
+}: {
+  initials: string;
+  accent: string;
+  shape: "square" | "circle" | "diamond";
+}) {
+  const common =
+    "relative inline-flex h-9 w-9 items-center justify-center text-[11px] font-bold uppercase tracking-tight text-ivory shadow-sm";
+  if (shape === "circle") {
+    return (
+      <span
+        className={`${common} rounded-full`}
+        style={{ background: accent }}
+        aria-hidden="true"
+      >
+        {initials}
+      </span>
+    );
+  }
+  if (shape === "diamond") {
+    return (
+      <span
+        className="relative inline-flex h-9 w-9 items-center justify-center"
+        aria-hidden="true"
+      >
+        <span
+          className="absolute inset-0 rotate-45 rounded-[3px]"
+          style={{ background: accent }}
+        />
+        <span className="relative z-10 text-[11px] font-bold uppercase tracking-tight text-ivory">
+          {initials}
+        </span>
+      </span>
+    );
+  }
+  return (
+    <span
+      className={`${common} rounded-md`}
+      style={{ background: accent }}
+      aria-hidden="true"
+    >
+      {initials}
+    </span>
   );
 }
 

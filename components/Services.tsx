@@ -24,7 +24,7 @@ export function Services({ t }: { t: ServicesT }) {
   return (
     <section
       id="services"
-      className="relative isolate overflow-hidden bg-paper py-24 md:py-32"
+      className="relative isolate overflow-hidden bg-paper py-20 md:py-24"
     >
       {/* Ambient drifting amber blob — gives the section continuous
           background motion so it never feels static. */}
@@ -56,35 +56,30 @@ export function Services({ t }: { t: ServicesT }) {
       />
 
       <div className="mx-auto max-w-7xl px-6 md:px-10">
-        <div className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={reveal}
-            transition={{ duration: 0.7, ease: reverentEase }}
-          >
-            <span className="eyebrow text-cobalt/70">
-              <span className="mr-3 inline-block h-px w-8 align-middle bg-amber" />
-              {t.eyebrow}
-            </span>
-            <h2 className="mt-5 font-display text-[34px] leading-[1.05] tracking-tight text-cobalt-ink md:text-[44px]">
-              {t.heading}
-            </h2>
-          </motion.div>
-          <motion.p
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={reveal}
-            transition={{ duration: 0.7, delay: 0.1, ease: reverentEase }}
-            className="max-w-xl text-base leading-relaxed text-cobalt-ink/75 md:mt-2 md:text-[17px]"
-          >
+        {/* Centered intro block — eyebrow, heading, supporting copy
+            all stack on a single max-w-3xl axis. */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={reveal}
+          transition={{ duration: 0.7, ease: reverentEase }}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <span className="eyebrow text-cobalt/70">
+            <span className="mr-3 inline-block h-px w-8 align-middle bg-amber" />
+            {t.eyebrow}
+            <span className="ml-3 inline-block h-px w-8 align-middle bg-amber" />
+          </span>
+          <h2 className="mt-5 font-display text-[32px] leading-[1.05] tracking-tight text-cobalt-ink md:text-[42px]">
+            {t.heading}
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-cobalt-ink/75 md:text-[16px]">
             {t.sub}
-          </motion.p>
-        </div>
+          </p>
+        </motion.div>
 
-        <div className="mt-14 grid gap-5 md:mt-20 md:grid-cols-2 md:gap-6">
+        <div className="mt-12 grid gap-4 md:mt-16 md:grid-cols-2 md:gap-5">
           {t.items.map((item, i) => (
             <Card
               key={item.title}
@@ -120,14 +115,13 @@ function Card({
         delay: index * 0.12,
         ease: reverentEase,
       }}
-      whileHover={{ y: -4 }}
-      className="group relative isolate overflow-hidden rounded-2xl border border-line-soft bg-ivory p-7 transition-colors duration-300 hover:border-cobalt/30 md:p-10"
+      whileHover={{ y: -3 }}
+      className="group relative isolate overflow-hidden rounded-xl border border-line-soft bg-ivory p-6 transition-colors duration-300 hover:border-cobalt/30 md:p-7"
     >
-      {/* Huge watermark numeral — sits behind everything, gives the card
-          presence and editorial weight. */}
+      {/* Watermark numeral — smaller and slimmer for a more elegant card */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -right-2 -top-3 select-none font-serif text-[180px] leading-none italic text-cobalt-ink/[0.04] md:-right-3 md:-top-4 md:text-[220px]"
+        className="pointer-events-none absolute -right-1 -top-2 select-none font-serif text-[130px] leading-none italic text-cobalt-ink/[0.04] md:-right-2 md:-top-3 md:text-[160px]"
       >
         0{index + 1}
       </span>
@@ -138,40 +132,40 @@ function Card({
         className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-amber/15 to-transparent opacity-0 group-hover:opacity-100 group-hover:card-shine"
       />
 
-      <div className="relative flex items-start justify-between gap-5">
+      <div className="relative flex items-start justify-between gap-4">
         <motion.div
-          whileHover={{ scale: 1.08, rotate: -2 }}
+          whileHover={{ scale: 1.06, rotate: -2 }}
           transition={{ duration: 0.4, ease: reverentEase }}
           className="relative"
         >
           <span
             aria-hidden="true"
-            className="absolute -inset-3 -z-10 rounded-full bg-amber/0 transition-colors duration-500 group-hover:bg-amber/15"
+            className="absolute -inset-2.5 -z-10 rounded-full bg-amber/0 transition-colors duration-500 group-hover:bg-amber/15"
           />
-          <Icon className="h-11 w-11 text-cobalt transition-colors group-hover:text-amber-deep md:h-12 md:w-12" />
+          <Icon className="h-8 w-8 text-cobalt transition-colors group-hover:text-amber-deep md:h-9 md:w-9" />
         </motion.div>
         {item.stat && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber/30 bg-amber/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-amber-deep">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-amber" />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber/30 bg-amber/10 px-2 py-0.5 text-[9.5px] font-medium uppercase tracking-[0.16em] text-amber-deep">
+            <span className="inline-block h-1 w-1 rounded-full bg-amber" />
             {item.stat}
           </span>
         )}
       </div>
 
-      <h3 className="relative mt-7 font-display text-[24px] leading-tight tracking-tight text-cobalt-ink md:text-[26px]">
+      <h3 className="relative mt-5 font-display text-[20px] leading-tight tracking-tight text-cobalt-ink md:text-[22px]">
         {item.title}
       </h3>
-      <p className="relative mt-3 text-[15px] leading-relaxed text-cobalt-ink/70">
+      <p className="relative mt-2 text-[14px] leading-relaxed text-cobalt-ink/70">
         {item.body}
       </p>
 
-      {/* Animated underline that draws in on hover */}
+      {/* Hairline rule that extends on hover */}
       <span
         aria-hidden="true"
-        className="relative mt-6 block h-px w-12 origin-left scale-x-100 bg-amber transition-transform duration-500 group-hover:scale-x-[3]"
+        className="relative mt-4 block h-px w-10 origin-left scale-x-100 bg-amber transition-transform duration-500 group-hover:scale-x-[3]"
       />
 
-      <ul className="relative mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-cobalt-ink/65">
+      <ul className="relative mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-cobalt-ink/65">
         {item.bullets.map((b) => (
           <li key={b} className="flex items-center gap-1.5">
             <span className="inline-block h-1 w-1 rounded-full bg-amber" />

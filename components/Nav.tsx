@@ -13,6 +13,7 @@ type NavT = {
   commodities: string;
   contact: string;
   quote: string;
+  login: string;
 };
 
 export function Nav({ locale, t }: { locale: Locale; t: NavT }) {
@@ -79,6 +80,27 @@ export function Nav({ locale, t }: { locale: Locale; t: NavT }) {
           </Link>
 
           <Link
+            href="/admin"
+            className="hidden items-center gap-1.5 rounded-full border border-cobalt/25 px-4 py-2 text-[12px] font-medium tracking-wide text-cobalt-ink/75 transition hover:border-cobalt hover:bg-cobalt/5 hover:text-cobalt md:inline-flex"
+          >
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75" />
+              <rect x="4.5" y="10.5" width="15" height="11" rx="2" />
+            </svg>
+            {t.login}
+          </Link>
+
+          <Link
             href="#contact"
             className="group/cta relative hidden items-center justify-center overflow-hidden rounded-full bg-cobalt px-5 py-2.5 text-[13px] font-medium text-ivory transition lg:inline-flex"
           >
@@ -138,6 +160,26 @@ export function Nav({ locale, t }: { locale: Locale; t: NavT }) {
                   {l.label}
                 </a>
               ))}
+              <Link
+                href="/admin"
+                onClick={() => setMenuOpen(false)}
+                className="mt-1 flex items-center gap-2 rounded-md px-2 py-2.5 text-base font-medium text-cobalt-ink/70 transition-colors hover:bg-cobalt/5 hover:text-cobalt"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75" />
+                  <rect x="4.5" y="10.5" width="15" height="11" rx="2" />
+                </svg>
+                {t.login}
+              </Link>
               <div className="mt-2 flex items-center justify-between border-t border-line-soft pt-4">
                 <Link
                   href={`/${otherLocale}`}

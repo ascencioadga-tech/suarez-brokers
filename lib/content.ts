@@ -1,7 +1,7 @@
 import type { Locale } from "./i18n";
 
 type Dict = {
-  nav: { services: string; locations: string; heritage: string; commodities: string; contact: string; quote: string };
+  nav: { services: string; locations: string; heritage: string; commodities: string; contact: string; quote: string; login: string };
   hero: {
     eyebrow: string;
     headline: string;
@@ -23,6 +23,9 @@ type Dict = {
     heading: string;
     sub: string;
     legend: { hq: string; primary: string; satellite: string };
+    liveLabel: string;
+    ctaLead: string;
+    ctaLabel: string;
   };
   heritage: {
     eyebrow: string;
@@ -37,6 +40,7 @@ type Dict = {
     sub: string;
     dry: { title: string; body: string; tags: string[] };
     produce: { title: string; body: string; tags: string[] };
+    clientsLead: string;
   };
   stats: {
     eyebrow: string;
@@ -66,6 +70,7 @@ export const content: Record<Locale, Dict> = {
       commodities: "Commodities",
       contact: "Contact",
       quote: "Request a quote",
+      login: "Staff login",
     },
     hero: {
       eyebrow: "Customs brokerage · Est. 1979",
@@ -125,6 +130,9 @@ export const content: Record<Locale, Dict> = {
       sub:
         "Headquartered in Nogales, with offices and licensed brokers stationed across California, Arizona, New Mexico, and Texas — so your shipment never waits on a flight or a phone call.",
       legend: { hq: "Headquarters", primary: "Primary office", satellite: "Satellite office" },
+      liveLabel: "Live",
+      ctaLead: "Six crossings. One contact. Zero junior account managers.",
+      ctaLabel: "Move your next shipment with us",
     },
     heritage: {
       eyebrow: "Since 1979",
@@ -159,6 +167,7 @@ export const content: Record<Locale, Dict> = {
           "Tomatoes, peppers, grapes, berries, melons, asparagus, citrus. Year-round, cold-chain, FDA-cleared, and on the truck before the loading dock opens for the day.",
         tags: ["Tomatoes", "Berries", "Grapes", "Melons", "Citrus", "Asparagus", "Peppers"],
       },
+      clientsLead: "Trusted on both sides of the border",
     },
     stats: {
       eyebrow: "By the numbers",
@@ -201,6 +210,7 @@ export const content: Record<Locale, Dict> = {
       commodities: "Mercancías",
       contact: "Contacto",
       quote: "Solicitar cotización",
+      login: "Acceso de personal",
     },
     hero: {
       eyebrow: "Agencia aduanal · Desde 1979",
@@ -260,6 +270,9 @@ export const content: Record<Locale, Dict> = {
       sub:
         "Sede en Nogales, con oficinas y agentes licenciados ubicados en California, Arizona, Nuevo México y Texas — para que tu embarque nunca espere por un vuelo o una llamada.",
       legend: { hq: "Sede", primary: "Oficina principal", satellite: "Oficina satélite" },
+      liveLabel: "En vivo",
+      ctaLead: "Seis cruces. Un contacto. Cero ejecutivos junior.",
+      ctaLabel: "Mueve tu próximo embarque con nosotros",
     },
     heritage: {
       eyebrow: "Desde 1979",
@@ -294,6 +307,7 @@ export const content: Record<Locale, Dict> = {
           "Tomate, chile, uva, berries, melón, espárrago, cítricos. Todo el año, cadena de frío, autorizado por FDA, y en el camión antes de que abra el andén.",
         tags: ["Tomate", "Berries", "Uva", "Melón", "Cítricos", "Espárrago", "Chile"],
       },
+      clientsLead: "De confianza a ambos lados de la frontera",
     },
     stats: {
       eyebrow: "En cifras",
