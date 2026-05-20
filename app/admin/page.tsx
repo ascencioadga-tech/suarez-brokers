@@ -7,6 +7,16 @@ import { motion } from "framer-motion";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+// Where Pasaje lives. Local dev port; swap for the production URL
+// (e.g. https://pasaje.suarezbrokers.com) once the Pasaje deploy ships.
+const PASAJE_URL = "http://localhost:3010/pipeline";
+
+// Demo credentials for the prototype. Replace with real auth (Supabase /
+// NextAuth / Clerk) before shipping — username case-insensitive, password
+// case-sensitive, same as production conventions.
+const DEMO_USERNAME = "juan";
+const DEMO_PASSWORD = "Suarez";
+
 export default function AdminLoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,10 +28,25 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setError("");
     setSubmitting(true);
-    // Placeholder — wire up to real auth later (Supabase / NextAuth / Clerk).
-    await new Promise((r) => setTimeout(r, 700));
-    setError("Authentication backend not yet connected.");
-    setSubmitting(false);
+
+    if (!username.trim() || !password.trim()) {
+      setError("Please enter a username and password.");
+      setSubmitting(false);
+      return;
+    }
+
+    // Simulate auth latency, then validate the demo credentials.
+    await new Promise((r) => setTimeout(r, 650));
+
+    const userOk = username.trim().toLowerCase() === DEMO_USERNAME;
+    const passOk = password === DEMO_PASSWORD;
+    if (!userOk || !passOk) {
+      setError("Invalid username or password.");
+      setSubmitting(false);
+      return;
+    }
+
+    window.location.href = PASAJE_URL;
   };
 
   return (
