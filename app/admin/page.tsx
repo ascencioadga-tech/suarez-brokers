@@ -7,9 +7,10 @@ import { motion } from "framer-motion";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// Where Pasaje lives. Local dev port; swap for the production URL
-// (e.g. https://pasaje.suarezbrokers.com) once the Pasaje deploy ships.
-const PASAJE_URL = "http://localhost:3010/pipeline";
+// Where the Suarez internal workspace lives. Local dev port; swap for the
+// production URL (e.g. https://workspace.suarezbrokers.com) once it ships.
+// Lands on the workspace launcher, which fans out to Pasaje + Proline.
+const PASAJE_URL = "http://localhost:3010/home";
 
 // Demo credentials for the prototype. Replace with real auth (Supabase /
 // NextAuth / Clerk) before shipping — username case-insensitive, password
